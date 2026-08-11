@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ถึงม๊า... | For Mom 2026</title>
+<meta name="description" content="การ์ดวันม๊าแบบ Interactive จากซิลถึงม๊า"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,500;1,600&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "surface": "#fff8f1",
+                    "surface-dim": "#dfd9d1",
+                    "surface-bright": "#fff8f1",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f9f3eb",
+                    "surface-container": "#f4ede5",
+                    "surface-container-high": "#eee7df",
+                    "surface-container-highest": "#e8e1da",
+                    "surface-variant": "#e8e1da",
+                    "on-surface": "#1e1b17",
+                    "on-surface-variant": "#524343",
+                    "inverse-surface": "#33302b",
+                    "inverse-on-surface": "#f7f0e8",
+                    "outline": "#857372",
+                    "outline-variant": "#d7c2c1",
+                    "surface-tint": "#8a4d4e",
+                    "primary": "#8a4d4e",
+                    "on-primary": "#ffffff",
+                    "primary-container": "#d98f8f",
+                    "on-primary-container": "#5d292a",
+                    "inverse-primary": "#ffb3b2",
+                    "secondary": "#705959",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#f8d8d8",
+                    "on-secondary-container": "#755d5d",
+                    "tertiary": "#884e4e",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#d6908f",
+                    "on-tertiary-container": "#5b2a2a",
+                    "background": "#fff8f1",
+                    "on-background": "#1e1b17",
+                    "primary-fixed": "#ffdad9",
+                    "primary-fixed-dim": "#ffb3b2",
+                    "on-primary-fixed": "#380c0f",
+                    "on-primary-fixed-variant": "#6e3637",
+                    "secondary-fixed": "#fbdbdb",
+                    "secondary-fixed-dim": "#debfbf",
+                    "on-secondary-fixed": "#281717",
+                    "on-secondary-fixed-variant": "#574142"
+                },
+                borderRadius: {
+                    "sm": "0.25rem",
+                    "DEFAULT": "0.5rem",
+                    "md": "0.75rem",
+                    "lg": "1rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+                },
+                spacing: {
+                    "unit": "8px",
+                    "gutter": "16px",
+                    "stack-sm": "12px",
+                    "stack-md": "32px",
+                    "stack-lg": "64px",
+                    "container-padding-mobile": "24px",
+                    "container-padding-desktop": "80px"
+                },
+                fontFamily: {
+                    "display": ["Playfair Display", "serif"],
+                    "body": ["Be Vietnam Pro", "sans-serif"]
+                },
+                fontSize: {
+                    "display-lg-mobile": ["36px", { lineHeight: "42px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                    "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                    "headline-md": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                    "headline-sm": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                    "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                    "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                    "label-caps": ["12px", { lineHeight: "16px", letterSpacing: "0.1em", fontWeight: "600" }]
+                }
+            }
+        }
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+    :root{ --grain-opacity: .045; }
+    html { scroll-behavior: smooth; }
+    body {
+        background-color: #fff8f1;
+        color: #1e1b17;
+        overflow-x: hidden;
+        font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    h1, h2, h3, .font-display { font-family: 'Playfair Display', serif; }
+    @media (min-width: 768px){ body{ cursor: none; } }
+
+    /* --- Grain / paper texture --- */
+    .grain-overlay {
+        position: fixed; inset: 0; pointer-events: none; z-index: 9998;
+        opacity: var(--grain-opacity); mix-blend-mode: multiply;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* --- Custom cursor --- */
+    .custom-cursor {
+        position: fixed; top: 0; left: 0; width: 22px; height: 22px;
+        border: 1px solid #8a4d4e; border-radius: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none; z-index: 10000;
+        transition: width .25s ease, height .25s ease, background-color .25s ease, border-color .25s ease;
+    }
+    .custom-cursor.hover { width: 46px; height: 46px; background-color: rgba(217,143,143,.18); border-color: rgba(217,143,143,.6); }
+    .custom-cursor.dark { border-color: #ffb3b2; }
+
+    /* --- Loading screen --- */
+    #loading-screen { position: fixed; inset: 0; background:#fff8f1; z-index: 9999; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+
+    /* --- Polaroid --- */
+    .polaroid {
+        position: relative;
+        background: #F7EFE5;
+        padding: 12px 12px 44px 12px;
+        box-shadow: 0 18px 40px -14px rgba(50,30,20,.20), 0 2px 6px rgba(50,30,20,.06);
+        border: 1px solid rgba(255,255,255,.6);
+    }
+    .polaroid-img-wrapper { position: relative; overflow: hidden; background:#dfd9d1; }
+    .polaroid-img-wrapper::after { content:''; position:absolute; inset:0; background: rgba(138,77,78,.06); pointer-events:none; }
+    .polaroid-img-wrapper img { transition: transform .8s cubic-bezier(.22,1,.36,1), filter .8s ease; }
+    .polaroid:hover .polaroid-img-wrapper img { transform: scale(1.045); }
+
+    .hide-scrollbar::-webkit-scrollbar { display:none; }
+    .hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+
+    /* --- Chapter dot navigation --- */
+    #chapter-nav { position: fixed; right: 28px; top:50%; transform: translateY(-50%); z-index: 60; display:none; flex-direction:column; gap:18px; }
+    @media (min-width:768px){ #chapter-nav{ display:flex; } }
+    #chapter-nav a { position: relative; width:8px; height:8px; border-radius:9999px; background: rgba(133,115,114,.35); display:block; transition: all .35s ease; }
+    #chapter-nav a::before { content: attr(data-label); position:absolute; right:20px; top:50%; transform: translateY(-50%); white-space:nowrap; font-size:11px; letter-spacing:.06em; color:#524343; background:#fff8f1; padding:4px 10px; border-radius:9999px; opacity:0; pointer-events:none; transition:opacity .25s ease; box-shadow:0 4px 12px rgba(50,30,20,.10); }
+    #chapter-nav a:hover::before { opacity:1; }
+    #chapter-nav a.active { background: #8a4d4e; width:10px; height:10px; box-shadow: 0 0 0 5px rgba(138,77,78,.15); }
+    #chapter-nav.on-dark a { background: rgba(255,255,255,.35); }
+    #chapter-nav.on-dark a.active { background: #ffb3b2; box-shadow: 0 0 0 5px rgba(255,179,178,.18); }
+
+    /* --- Section 05: Emotional --- */
+    #emotional { background:#fff8f1; }
+
+    /* --- Section 06: Secret (dark) --- */
+    #secret { background:#1e1b17; color:#f7f0e8; }
+    #secret .secret-line { opacity:0; transform: translateY(14px); }
+
+    /* --- Timeline horizontal --- */
+    .timeline-track { will-change: transform; }
+
+    /* --- Floating decorations --- */
+    .floaty { position:absolute; pointer-events:none; opacity:.55; }
+
+    /* --- Easter egg heart --- */
+    #easter-heart { transition: transform .2s ease; }
+    #easter-heart:active { transform: scale(.85); }
+
+    #toast {
+        position: fixed; left:50%; bottom:36px; transform: translate(-50%, 20px);
+        background:#33302b; color:#f7f0e8; padding:12px 22px; border-radius:9999px;
+        font-size:14px; z-index: 200; opacity:0; pointer-events:none;
+        transition: opacity .35s ease, transform .35s ease; box-shadow:0 12px 30px rgba(0,0,0,.25);
+        max-width: 90vw; text-align:center;
+    }
+    #toast.show { opacity:1; transform: translate(-50%, 0); }
+
+    /* --- Gift card selected state --- */
+    .gift-card.selected { outline: 2px solid #8a4d4e; outline-offset: 4px; }
+
+    /* --- Focus visibility for accessibility --- */
+    a:focus-visible, button:focus-visible {
+        outline: 2px solid #8a4d4e; outline-offset: 3px; border-radius: 6px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: .01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: .01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+
+    /* --- Tiny cute interactions --- */
+    #scroll-progress {
+        position: fixed; left: 0; top: 64px; width: 0%; height: 3px;
+        background: linear-gradient(90deg, #8a4d4e, #d98f8f, #f4b6a8);
+        z-index: 70; box-shadow: 0 1px 8px rgba(138,77,78,.28);
+    }
+    .love-note {
+        position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%) rotate(-1deg);
+        width: max-content; max-width: calc(100% - 28px); padding: 6px 12px;
+        border-radius: 9999px; background: rgba(255,248,241,.9); color: #8a4d4e;
+        font-size: 12px; line-height: 16px; box-shadow: 0 8px 18px rgba(50,30,20,.10);
+        border: 1px solid rgba(215,194,193,.65); pointer-events: none;
+    }
+    .sticker {
+        position: absolute; display: inline-flex; align-items: center; gap: 5px;
+        padding: 7px 12px; border-radius: 9999px; background: rgba(255,255,255,.82);
+        color: #8a4d4e; font-size: 12px; line-height: 16px; box-shadow: 0 10px 28px rgba(50,30,20,.12);
+        border: 1px solid rgba(215,194,193,.55); backdrop-filter: blur(10px);
+    }
+    .sticker-soft { background: rgba(248,216,216,.82); color: #5d292a; }
+    .hug-button {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        padding: 12px 18px; border-radius: 9999px; background: #8a4d4e; color: #fff;
+        box-shadow: 0 16px 32px rgba(138,77,78,.22); transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .hug-button:hover { transform: translateY(-2px); box-shadow: 0 20px 42px rgba(138,77,78,.28); }
+    .tap-heart {
+        position: fixed; z-index: 160; pointer-events: none; transform: translate(-50%, -50%);
+        filter: drop-shadow(0 8px 14px rgba(50,30,20,.18));
+    }
+    @keyframes soft-float {
+        0%, 100% { transform: translateY(0) rotate(-2deg); }
+        50% { transform: translateY(-10px) rotate(2deg); }
+    }
+    .soft-float { animation: soft-float 4.8s ease-in-out infinite; }
+    @media (max-width: 767px) {
+        #scroll-progress { top: 64px; }
+        .love-note { font-size: 11px; padding: 5px 10px; }
+    }
+</style>
+</head>
+<body class="antialiased selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- Custom cursor -->
+<div class="custom-cursor hidden md:block" id="cursor" aria-hidden="true"></div>
+<div class="grain-overlay" aria-hidden="true"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<!-- Loading screen -->
+<div id="loading-screen" role="status" aria-label="กำลังโหลด">
+    <div class="w-20 h-20 mb-6 text-primary" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+            <path d="M50 88C50 88 12 64 12 35C12 20 23 11 36 11C43 11 48 15 50 20C52 15 57 11 64 11C77 11 88 20 88 35C88 64 50 88 50 88Z" stroke="currentColor" stroke-width="3" fill="none" stroke-linejoin="round"/>
+        </svg>
+    </div>
+    <p class="font-body text-label-caps tracking-[0.2em] text-secondary mb-1">MAA'S CARD</p>
+    <p class="font-display italic text-headline-sm text-primary mb-6">2026</p>
+    <div class="w-56 h-[3px] bg-surface-container-high rounded-full overflow-hidden">
+        <div class="h-full bg-primary w-0 rounded-full" id="loading-progress"></div>
+    </div>
+    <p class="font-body text-label-caps text-outline mt-3" id="loading-percent">0%</p>
+</div>
+
+<!-- Chapter dot navigation -->
+<nav id="chapter-nav" aria-label="สารบัญเรื่องราว">
+    <a href="#hero" data-label="เปิดการ์ด" aria-label="ไปที่หน้าเปิด" class="interactive"></a>
+    <a href="#memories" data-label="เรื่องราว" aria-label="ไปที่ความทรงจำ" class="interactive"></a>
+    <a href="#photo-wall" data-label="รูปภาพ" aria-label="ไปที่ผนังรูปภาพ" class="interactive"></a>
+    <a href="#letter" data-label="จดหมาย" aria-label="ไปที่จดหมาย" class="interactive"></a>
+    <a href="#emotional" data-label="จากใจ" aria-label="ไปที่ข้อความจากใจ" class="interactive"></a>
+    <a href="#secret" data-label="ความลับ" aria-label="ไปที่ความลับ" class="interactive"></a>
+    <a href="#gifts" data-label="ของขวัญ" aria-label="ไปที่ของขวัญ" class="interactive"></a>
+    <a href="#final" data-label="สุดท้าย" aria-label="ไปที่หน้าสุดท้าย" class="interactive"></a>
+</nav>
+
+<!-- Top nav -->
+<nav class="fixed top-0 w-full z-50 backdrop-blur-md bg-background/80 shadow-sm flex justify-between items-center px-container-padding-mobile md:px-container-padding-desktop h-16" id="top-nav">
+    <button id="easter-heart" class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-300 interactive" aria-label="หัวใจลับ">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+    </button>
+    <div class="font-display italic text-headline-sm md:text-headline-md text-primary">For ม๊า</div>
+    <button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-300 interactive" id="music-btn" aria-label="เปิด/ปิดเสียงเพลง" aria-pressed="false">
+        <span class="material-symbols-outlined" id="music-icon">music_off</span>
+    </button>
+</nav>
+
+<audio id="bg-music" loop preload="none">
+    <source src="./assets/audio/background-music.mp3" type="audio/mpeg"/>
+</audio>
+
+<main class="w-full max-w-7xl mx-auto pt-16 flex flex-col items-center">
+
+    <!-- 01 · HERO -->
+    <section class="min-h-[92vh] w-full flex flex-col items-center justify-center px-container-padding-mobile md:px-container-padding-desktop relative py-10 md:py-12" id="hero">
+        <div class="floaty text-3xl md:text-4xl left-[8%] top-[18%] hero-el opacity-0" aria-hidden="true">🌸</div>
+        <div class="floaty text-2xl md:text-3xl right-[10%] top-[30%] hero-el opacity-0" aria-hidden="true">🤍</div>
+        <div class="sticker sticker-soft soft-float hero-el opacity-0 right-[8%] bottom-[20%] hidden md:inline-flex" aria-hidden="true">กอดม๊าผ่านหน้านี้</div>
+
+        <h1 class="font-display text-display-lg-mobile md:text-[84px] md:leading-[92px] text-primary text-center mb-stack-sm opacity-0 translate-y-10 hero-el">
+            ถึงม๊า...
+        </h1>
+        <p class="font-body text-body-lg text-on-surface-variant text-center max-w-md mb-stack-md opacity-0 translate-y-6 hero-el">
+            ซิลมีอะไรอยากบอกม๊า<br/>เลยแอบทำการ์ดใบนี้ไว้ให้
+        </p>
+
+        <div class="polaroid transform -rotate-2 opacity-0 hero-el max-w-xs md:max-w-sm w-full interactive">
+            <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                <img alt="รูปม๊า" class="w-full h-full object-cover" loading="eager"
+                     src="./assets/images/mom-01.png"/>
+            </div>
+            <div class="mt-3 font-display italic text-headline-sm text-secondary text-center opacity-70">ม๊าคนเก่ง · 2026</div>
+        </div>
+
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 hero-el" id="scroll-indicator">
+            <span class="font-body text-label-caps text-outline tracking-[0.2em]">เลื่อนดูน้า</span>
+            <span class="material-symbols-outlined text-outline animate-bounce" aria-hidden="true">arrow_downward</span>
+        </div>
+    </section>
+
+    <!-- 02 · MEMORIES -->
+    <section class="w-full py-10 md:py-14 px-container-padding-mobile md:px-container-padding-desktop relative min-h-[112vh]" id="memories">
+        <h2 class="font-display text-headline-md text-center text-on-surface-variant mb-stack-lg sticky top-24 z-30 leading-snug">
+            โมเมนต์เล็ก ๆ<br/>ที่ซิลชอบมาก
+        </h2>
+
+        <div class="relative w-full h-[96vh] flex flex-col md:flex-row items-center justify-center gap-stack-lg mt-8 md:mt-10">
+            <div class="polaroid w-60 md:w-72 md:absolute md:left-[6%] md:top-16 transform md:-rotate-6 memory-card interactive z-10">
+                <div class="polaroid-img-wrapper aspect-[4/3] w-full">
+                    <img alt="ม๊าในสวน" class="w-full h-full object-cover grayscale-[15%]" loading="lazy"
+                         src="./assets/images/mom-02.png"/>
+                </div>
+                <p class="mt-2 font-display italic text-sm text-on-surface-variant text-center px-2">"วันธรรมดา ๆ ที่มีม๊า เลยพิเศษขึ้นทันที"</p>
+            </div>
+            <div class="polaroid w-60 md:w-72 md:absolute md:right-[12%] md:top-[22rem] transform md:rotate-3 memory-card interactive z-20">
+                <div class="polaroid-img-wrapper aspect-square w-full">
+                    <img alt="ม๊าถือดอกไม้" class="w-full h-full object-cover sepia-[8%]" loading="lazy"
+                         src="./assets/images/mom-09.png"/>
+                </div>
+            </div>
+            <div class="polaroid w-60 md:w-72 md:absolute md:left-[18%] md:top-[42rem] transform md:-rotate-12 memory-card interactive z-10">
+                <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                    <img alt="ความทรงจำ 1" class="w-full h-full object-cover" loading="lazy"
+                         src="./assets/images/mom-03.png"/>
+                </div>
+            </div>
+            <div class="polaroid w-60 md:w-72 md:absolute md:right-[20%] md:top-[56rem] transform md:rotate-6 memory-card interactive z-20">
+                <div class="polaroid-img-wrapper aspect-square w-full">
+                    <img alt="ความทรงจำ 2" class="w-full h-full object-cover" loading="lazy"
+                         src="./assets/images/mom-10.png"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 03 · PHOTO WALL -->
+    <section class="w-full py-stack-lg relative min-h-[205vh] bg-surface-container-low rounded-xl md:mx-container-padding-desktop overflow-hidden" id="photo-wall" style="width: calc(100% - 0px);">
+        <p class="text-center font-body text-label-caps tracking-[0.2em] text-outline mb-stack-sm pt-stack-sm px-container-padding-mobile">อัลบั้มของม๊า</p>
+        <div class="sticky top-[22%] w-full h-[62vh] flex items-center overflow-hidden">
+            <div class="flex gap-8 px-8 timeline-track">
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform rotate-2">
+                    <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                        <img alt="อัลบั้ม 1" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-01.png"/>
+                    </div>
+                    <span class="love-note">ม๊ายิ้มแล้วโลกน่ารัก</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform -rotate-2">
+                    <div class="polaroid-img-wrapper aspect-[4/3] w-full">
+                        <img alt="อัลบั้ม 2" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-02.png"/>
+                    </div>
+                    <span class="love-note">วันชิล ๆ ของม๊า</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform rotate-4 mt-10">
+                    <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                        <img alt="อัลบั้ม 3" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-03.png"/>
+                    </div>
+                    <span class="love-note">ทีมสีม่วงสุดน่ารัก</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform -rotate-4 -mt-10">
+                    <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                        <img alt="อัลบั้ม 4" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-04.png"/>
+                    </div>
+                    <span class="love-note">ยิ้มนี้ของม๊า</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform rotate-1">
+                    <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                        <img alt="อัลบั้ม 5" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-05.png"/>
+                    </div>
+                    <span class="love-note">รูปนี้ซิลชอบ</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform -rotate-3 mt-6">
+                    <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                        <img alt="อัลบั้ม 6" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-06.png"/>
+                    </div>
+                    <span class="love-note">ม๊ากับดอกไม้</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform rotate-3 -mt-6">
+                    <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                        <img alt="อัลบั้ม 7" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-07.png"/>
+                    </div>
+                    <span class="love-note">แก้มนี้มีคนรัก</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform -rotate-1 mt-12">
+                    <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                        <img alt="อัลบั้ม 8" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-08.png"/>
+                    </div>
+                    <span class="love-note">รูปอ้อน ๆ</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform rotate-2">
+                    <div class="polaroid-img-wrapper aspect-square w-full">
+                        <img alt="อัลบั้ม 9" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-09.png"/>
+                    </div>
+                    <span class="love-note">ม๊าทำอะไรก็น่ารัก</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform -rotate-2 -mt-8">
+                    <div class="polaroid-img-wrapper aspect-[4/3] w-full">
+                        <img alt="อัลบั้ม 10" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-10.png"/>
+                    </div>
+                    <span class="love-note">ดอกไม้ของม๊า</span>
+                </div>
+                <div class="polaroid w-64 md:w-72 flex-shrink-0 interactive transform rotate-4 mt-8">
+                    <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                        <img alt="อัลบั้ม 11" class="w-full h-full object-cover" loading="lazy"
+                             src="./assets/images/mom-11.png"/>
+                    </div>
+                    <span class="love-note">ม๊าสวยมาก</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 04 · LETTER -->
+    <section class="w-full py-12 md:py-16 px-container-padding-mobile md:px-container-padding-desktop flex flex-col items-center max-w-4xl mx-auto rounded-xl mt-8" id="letter">
+        <div class="w-full max-w-xl text-center space-y-6 font-display text-headline-sm md:text-headline-md text-on-surface leading-relaxed py-stack-lg">
+            <p class="letter-line opacity-0 translate-y-4">ม๊าครับ</p>
+            <p class="letter-line opacity-0 translate-y-4 font-body text-body-lg md:text-body-lg font-normal text-on-surface-variant">ขอบคุณม๊าสำหรับทุกอย่างเลยน้า</p>
+            <p class="letter-line opacity-0 translate-y-4 font-body text-body-lg font-normal text-on-surface-variant">ขอบคุณที่คอยดูแล<br/>คอยเป็นห่วง<br/>และอยู่ข้าง ๆ ซิลเสมอ</p>
+            <p class="letter-line opacity-0 translate-y-4 text-primary text-4xl">❤️</p>
+            <button class="letter-line opacity-0 translate-y-4 hug-button interactive" id="hug-btn" type="button"><span class="material-symbols-outlined" aria-hidden="true">favorite</span><span>ส่งกอดให้ม๊า</span></button>
+        </div>
+    </section>
+
+    <!-- 05 · EMOTIONAL PEAK -->
+    <section class="w-full min-h-[72vh] py-12 md:py-16 px-container-padding-mobile flex flex-col items-center justify-center text-center" id="emotional">
+        <p class="emo-line opacity-0 translate-y-4 font-body text-body-lg text-on-surface-variant mb-stack-md max-w-sm">ซิลอาจจะเขิน ๆ ไม่ค่อยพูดบ่อย...</p>
+        <p class="emo-line opacity-0 translate-y-4 font-body text-body-lg text-on-surface-variant mb-stack-lg max-w-sm">แต่มีอยู่เรื่องนึง<br/>ที่อยากให้ม๊ารู้ไว้ทุกวัน</p>
+        <span class="emo-line opacity-0 material-symbols-outlined text-primary mb-stack-lg" aria-hidden="true">arrow_downward</span>
+        <h2 class="emo-line opacity-0 translate-y-4 font-display italic text-display-lg-mobile md:text-display-lg text-primary">ซิลรักม๊านะ</h2>
+    </section>
+
+    <!-- 06 · SECRET -->
+    <section class="w-full min-h-[78vh] flex flex-col items-center justify-center text-center px-container-padding-mobile" id="secret">
+        <div class="mb-stack-lg">
+            <span class="secret-line text-5xl block" aria-hidden="true">❤️</span>
+        </div>
+        <p class="secret-line font-body text-body-lg text-inverse-on-surface/70 mb-stack-sm">จริง ๆ แล้ว...</p>
+        <p class="secret-line font-body text-body-lg text-inverse-on-surface/70 mb-stack-lg">ซิลมีเรื่องสำคัญ<br/>อยากอ้อนม๊านิดนึง</p>
+        <h2 class="secret-line font-display text-display-lg-mobile md:text-display-lg text-inverse-on-surface leading-tight">
+            ของขวัญวันม๊า<br/>ของซิล 🎁
+        </h2>
+    </section>
+
+    <!-- 07 · GIFT SELECTION -->
+    <section class="w-full py-12 md:py-16 px-container-padding-mobile md:px-container-padding-desktop flex flex-col items-center justify-center" id="gifts">
+        <div class="text-center mb-stack-lg max-w-lg">
+            <p class="font-body text-label-caps tracking-[0.2em] text-outline mb-3">FINAL CHOICE</p>
+            <h2 class="font-display text-headline-md md:text-display-lg text-primary">ม๊าชอบอันไหนน้า?</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+            <!-- AirPods Card -->
+            <button class="gift-card text-left bg-surface-container-lowest p-6 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-outline-variant/30 flex flex-col items-center gap-6 group hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 interactive" data-gift="airpods" aria-pressed="false">
+                <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-low relative">
+                    <img alt="AirPods Pro 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZWNbIdb46lKVT0ZkEUYoQHtdeNQhUB3ryQrkynqGnxOlHsgOe-hrZZBbio2MW7FkQOzLH-pqBaMr26IerTenZl73MSQU-q9vIiBd5jwGo1PqF2gcNRwU2-IzefJ63dXJcABObQSwjeQHHzyMGn114_o6_ShStH4mTaIrI4H_GiVXC_GPiUbgp4Xmh-mSrvhNy0b3td_-zUa2LbvnoHK_ZPANbQiA3gVDYwn__X0fK0XU0sDi_8sxE"/>
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300"></div>
+                </div>
+                <div class="text-center w-full">
+                    <p class="font-body text-label-caps tracking-[0.15em] text-outline mb-1">🎧 AIRPODS</p>
+                    <h3 class="font-display text-headline-sm text-on-surface mb-2">AirPods Pro 3</h3>
+                    <p class="font-body text-body-md text-on-surface-variant mb-6">ไว้ให้ม๊าฟังเพลงเพราะ ๆ แบบชัดสุด ๆ</p>
+                    <span class="inline-block px-8 py-3 bg-primary-container text-on-primary-container rounded-full font-body text-label-caps w-full group-hover:bg-primary group-hover:text-on-primary transition-colors">เลือกอันนี้ 🎧</span>
+                </div>
+            </button>
+            <!-- Camera Card -->
+            <button class="gift-card text-left bg-surface-container-lowest p-6 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-outline-variant/30 flex flex-col items-center gap-6 group hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 interactive" data-gift="polaroid" aria-pressed="false">
+                <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-low relative">
+                    <img alt="กล้อง Instax" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXevUXUVWi6-PL-6fj0RnUBOqniZILagjPW4PtZ93QMVqEeY-8aVNrVhpN-tChOenkh_sqZYEDNNfLfgHK0nQvqPAalMoL8vFg1uF5QJIcyfDMr4OQDe8jHQD-HS6FYUtagw042KdHBpY8F_Nm3qOBtkA9B-cUaL7dSSYOAnhm3lK4VFzwHQVtsI97AmvUHCIQvPODxdf8zp7vYscBASBNjDhRQbovuhEpE04pt_Zr9I_c10KzeV1t"/>
+                    <div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300"></div>
+                </div>
+                <div class="text-center w-full">
+                    <p class="font-body text-label-caps tracking-[0.15em] text-outline mb-1">📷 CAMERA</p>
+                    <h3 class="font-display text-headline-sm text-on-surface mb-2">Instax Camera</h3>
+                    <p class="font-body text-body-md text-on-surface-variant mb-6">เอาไว้เก็บรูปน่ารัก ๆ ของม๊ากับซิล</p>
+                    <span class="inline-block px-8 py-3 bg-transparent border border-outline text-on-surface rounded-full font-body text-label-caps w-full group-hover:bg-surface-container-high transition-colors">เลือกอันนี้ 📷</span>
+                </div>
+            </button>
+        </div>
+    </section>
+
+    <!-- 08 · FINAL -->
+    <section class="w-full min-h-[82vh] py-12 md:py-16 px-container-padding-mobile flex flex-col items-center justify-center text-center relative overflow-hidden" id="final">
+        <div id="final-content" class="opacity-0 translate-y-6 flex flex-col items-center max-w-md">
+            <span class="text-6xl mb-stack-sm" id="final-icon" aria-hidden="true">💐</span>
+            <h2 class="font-display text-headline-md md:text-display-lg text-primary mb-stack-sm" id="final-title">ม๊าเลือกของขวัญด้านบนได้เลยน้า</h2>
+            <p class="font-body text-body-lg text-on-surface-variant mb-stack-md" id="final-subtitle">เดี๋ยวซิลมีข้อความพิเศษให้ตรงนี้ ❤️</p>
+            <div class="polaroid transform rotate-2 max-w-[220px] w-full interactive">
+                <div class="polaroid-img-wrapper aspect-[3/4] w-full">
+                    <img alt="รูปม๊า" class="w-full h-full object-cover" loading="lazy"
+                         src="./assets/images/mom-01.png"/>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="w-full py-stack-md bg-surface-container-low border-t border-outline-variant flex flex-col items-center gap-unit relative z-10">
+    <div class="font-body text-label-caps text-primary mb-2">With love, always.</div>
+    <div class="flex gap-4 font-body text-body-md text-on-surface-variant">
+        <span>จากซิล ถึงม๊า · 12 สิงหาคม 2026</span>
+    </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+    // ---------- Custom cursor ----------
+    const cursor = document.getElementById('cursor');
+    function refreshInteractives(){
+        document.querySelectorAll('.interactive, button, a').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+    }
+    refreshInteractives();
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('button, a')) return;
+        popTapHeart(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (window.innerWidth > 768) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        }
+    });
+
+    // ---------- Loading screen ----------
+    window.addEventListener('load', () => {
+        let progress = 0;
+        const bar = document.getElementById('loading-progress');
+        const pct = document.getElementById('loading-percent');
+        const interval = setInterval(() => {
+            progress += Math.random() * 22;
+            if (progress > 100) progress = 100;
+            bar.style.width = progress + '%';
+            pct.textContent = Math.floor(progress) + '%';
+            if (progress === 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    gsap.to('#loading-screen', {
+                        opacity: 0, duration: 1,
+                        onComplete: () => {
+                            document.getElementById('loading-screen').style.display = 'none';
+                            initScrollAnimations();
+                        }
+                    });
+                }, 400);
+            }
+        }, 90);
+    });
+
+    // ---------- Scroll animations ----------
+    function updateScrollProgress() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+        document.getElementById('scroll-progress').style.width = pct + '%';
+    }
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress();
+
+    function initScrollAnimations() {
+        gsap.registerPlugin(ScrollTrigger);
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // Hero
+        gsap.to('.hero-el', { y: 0, x: 0, opacity: 1, duration: 1.4, stagger: 0.25, ease: 'power3.out' });
+
+        gsap.to('#scroll-indicator', {
+            opacity: 0, scrollTrigger: { trigger: '#hero', start: 'top top', end: '30% top', scrub: true }
+        });
+
+        // Memories parallax
+        gsap.to('.memory-card', {
+            y: (i) => -86 * (i + 1),
+            rotation: (i) => (i % 2 === 0 ? 8 : -8),
+            ease: 'none',
+            scrollTrigger: { trigger: '#memories', start: 'top 85%', end: 'bottom top', scrub: 1.2 }
+        });
+
+        // Timeline horizontal pin-scroll
+        gsap.to('.timeline-track', {
+            x: () => {
+                const track = document.querySelector('.timeline-track');
+                return -(track.scrollWidth - window.innerWidth + 40);
+            },
+            ease: 'none',
+            scrollTrigger: { trigger: '#photo-wall', start: 'top top', end: 'bottom bottom', scrub: 1.6, pin: '.sticky', invalidateOnRefresh: true }
+        });
+
+        // Letter reveal + background shift (cream -> warm white -> soft pink)
+        gsap.to('.letter-line', {
+            y: 0, opacity: 1, duration: 1, stagger: 0.45,
+            scrollTrigger: { trigger: '#letter', start: 'top 75%' }
+        });
+        gsap.to('#letter', {
+            backgroundColor: '#f8d8d8',
+            duration: 1,
+            scrollTrigger: { trigger: '#letter', start: 'top 60%', end: 'bottom 40%', scrub: 1 }
+        });
+
+        // Emotional reveal
+        gsap.to('#emotional .emo-line', {
+            y: 0, opacity: 1, duration: 1, stagger: 0.5,
+            scrollTrigger: { trigger: '#emotional', start: 'top 65%' }
+        });
+
+        // Secret sequence (fade to dark + staggered text)
+        const secretTl = gsap.timeline({
+            scrollTrigger: { trigger: '#secret', start: 'top 55%' }
+        });
+        secretTl
+            .to('#secret .secret-line', { opacity: 1, y: 0, duration: 0.9, stagger: 0.6 });
+
+        // Gifts reveal
+        gsap.from('#gifts', {
+            opacity: 0, y: 30, duration: 1,
+            scrollTrigger: { trigger: '#gifts', start: 'top 75%' }
+        });
+
+        // Chapter nav active state
+        const navLinks = document.querySelectorAll('#chapter-nav a');
+        const darkSections = ['secret'];
+        ['hero','memories','photo-wall','letter','emotional','secret','gifts','final'].forEach((id, idx) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            ScrollTrigger.create({
+                trigger: el,
+                start: 'top center',
+                end: 'bottom center',
+                onToggle: (self) => {
+                    if (self.isActive) {
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        navLinks[idx].classList.add('active');
+                        document.getElementById('chapter-nav').classList.toggle('on-dark', darkSections.includes(id));
+                        cursor.classList.toggle('dark', darkSections.includes(id));
+                    }
+                }
+            });
+        });
+
+        if (reduceMotion) { ScrollTrigger.getAll().forEach(t => t.scrub && (t.scrub = false)); }
+    }
+
+    // ---------- Music toggle ----------
+    const musicBtn = document.getElementById('music-btn');
+    const musicIcon = document.getElementById('music-icon');
+    const audio = document.getElementById('bg-music');
+    let musicOn = false;
+    musicBtn.addEventListener('click', () => {
+        musicOn = !musicOn;
+        musicBtn.setAttribute('aria-pressed', String(musicOn));
+        musicIcon.textContent = musicOn ? 'music_note' : 'music_off';
+        if (musicOn) {
+            audio.volume = 0;
+            audio.play().then(() => {
+                gsap.to(audio, { volume: 0.35, duration: 1.2 });
+            }).catch(() => {
+                showToast('ใส่ไฟล์เพลงที่ assets/audio/background-music.mp3 เพื่อเปิดเพลงได้นะ 🎵');
+                musicOn = false;
+                musicIcon.textContent = 'music_off';
+                musicBtn.setAttribute('aria-pressed', 'false');
+            });
+        } else {
+            gsap.to(audio, { volume: 0, duration: 0.6, onComplete: () => audio.pause() });
+        }
+    });
+
+    // ---------- Easter egg heart ----------
+    let heartTaps = 0;
+    const hugBtn = document.getElementById('hug-btn');
+    if (hugBtn) {
+        hugBtn.addEventListener('click', () => {
+            showToast('ส่งกอดเรียบร้อย ม๊ารับไว้ด้วยน้า 🤍');
+            createConfetti(['🤍', '💌', '✨'], 18);
+        });
+    }
+
+    function popTapHeart(x, y) {
+        const heart = document.createElement('div');
+        heart.className = 'tap-heart';
+        heart.textContent = ['🤍', '💗', '✨'][Math.floor(Math.random() * 3)];
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        heart.style.fontSize = (Math.random() * 10 + 18) + 'px';
+        document.body.appendChild(heart);
+        gsap.to(heart, { y: -58, opacity: 0, scale: 1.45, rotation: Math.random() * 40 - 20, duration: .9, ease: 'power2.out', onComplete: () => heart.remove() });
+    }
+
+    const easterMessages = [
+        'ม๊าแอบกดเยอะกว่าที่คิดนะ 😂',
+        'รู้ทันนะครับว่ากำลังหาของขวัญให้ซิล 😏'
+    ];
+    document.getElementById('easter-heart').addEventListener('click', () => {
+        heartTaps++;
+        if (heartTaps >= 5) {
+            showToast(easterMessages[Math.floor(Math.random() * easterMessages.length)]);
+            heartTaps = 0;
+        }
+    });
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    // ---------- Gift selection -> final section ----------
+    const giftCopy = {
+        airpods: {
+            icon: '🎧',
+            title: 'ม๊าเลือก AirPods Pro 3',
+            subtitle: 'ขอบคุณม๊าที่สุดเลย ❤️ ซิลสัญญาว่าจะใช้ให้คุ้ม แล้วจะฟังเพลงคิดถึงม๊าด้วย'
+        },
+        polaroid: {
+            icon: '📷',
+            title: 'ม๊าเลือกกล้อง!',
+            subtitle: 'งั้นรูปแรกที่ซิลจะถ่าย... ขอเป็นรูปม๊านะ ❤️'
+        }
+    };
+
+    document.querySelectorAll('.gift-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const type = card.dataset.gift;
+            document.querySelectorAll('.gift-card').forEach(c => { c.classList.remove('selected'); c.setAttribute('aria-pressed', 'false'); });
+            card.classList.add('selected');
+            card.setAttribute('aria-pressed', 'true');
+
+            const copy = giftCopy[type];
+            document.getElementById('final-icon').textContent = copy.icon;
+            document.getElementById('final-title').textContent = copy.title;
+            document.getElementById('final-subtitle').textContent = copy.subtitle;
+
+            document.getElementById('final').scrollIntoView({ behavior: 'smooth' });
+
+            const finalContent = document.getElementById('final-content');
+            gsap.fromTo(finalContent, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1, delay: 0.5, ease: 'power3.out' });
+
+            setTimeout(createConfetti, 700);
+        });
+    });
+
+    function createConfetti(customEmojis, count = 24) {
+        const emojis = customEmojis || ['🤍', '💐', '✨'];
+        for (let i = 0; i < count; i++) {
+            const heart = document.createElement('div');
+            heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '100vh';
+            heart.style.fontSize = (Math.random() * 18 + 12) + 'px';
+            heart.style.zIndex = '150';
+            heart.style.pointerEvents = 'none';
+            document.body.appendChild(heart);
+            gsap.to(heart, {
+                y: -window.innerHeight - 100,
+                x: '+=' + (Math.random() * 200 - 100),
+                rotation: Math.random() * 360,
+                duration: Math.random() * 2 + 2,
+                ease: 'power1.out',
+                onComplete: () => heart.remove()
+            });
+        }
+    }
+</script>
+</body>
+</html>
